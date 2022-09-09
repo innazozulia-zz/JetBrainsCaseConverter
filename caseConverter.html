@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Case Converter</title>
+</head>
+
+<body style="background-color:powderblue;">
+    <div class="title" style="font-weight: 700;font-size: 34px; text-align: center; margin-bottom: 30px">Case Converter
+    </div>
+    <label for="demo"></label>
+    <textarea id="demo" style="width: 100%; height:600px"> </textarea>
+
+    <button id="upper-case" onclick="toUpper()" style="cursor: pointer; border-radius: 20px; padding: 10px 15px">Upper
+        Case</button>
+    <button id="lower-case" onclick="toLower()" style="cursor: pointer; border-radius: 20px; padding: 10px 15px">Lower
+        Case</button>
+    <button id="proper-case" onclick="toProper()"
+        style="cursor: pointer; border-radius: 20px; padding: 10px 15px">Proper Case</button>
+    <button id="sentence-case" onclick="convertToSentenceCase()"
+        style="cursor: pointer; border-radius: 20px; padding: 10px 15px">Sentence Case</button>
+    <button id="save-text-file" onclick="download()"
+        style="cursor: pointer; border-radius: 20px; padding: 10px 15px">Save text file</button>
+    <script>
+        function toUpper() {
+            let text = document.getElementById("demo").value;
+            document.getElementById("demo").value = text.toString().toUpperCase();
+        }
+
+        function toLower() {
+            let text = document.getElementById("demo").value;
+            document.getElementById("demo").value = text.toString().toLowerCase();
+        }
+
+        function toProper() {
+            let text = document.getElementById("demo").value;
+            text.toString().toLowerCase();
+            let ar = text.split(' ');
+            for (let i = 0; i < ar.length; i++) {
+                ar[i] = ar[i].charAt(0).toUpperCase() + ar[i].slice(1);
+            }
+            document.getElementById("demo").value = ar.join(" ");
+        }
+
+        function toSentence() {
+            let text = document.getElementById("demo").value;
+            let string = text.toString().toLowerCase().replace(/(^\s*\w|[\.\!\?]\s*\w)/g, function (c) {
+                return c.toUpperCase()
+            });
+            return string;
+
+        }
+
+        function convertToSentenceCase() {
+            let text = document.getElementById("demo").value;
+            let string = toSentence(text);
+            document.getElementById('demo').value = string;
+        }
+
+        function download(filename, text) {
+            let element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+            element.setAttribute('download', filename);
+
+            element.style.display = 'none';
+            document.body.appendChild(element);
+
+            element.click();
+
+            document.body.removeChild(element);
+        }
+        document.getElementById("save-text-file").addEventListener("click", function () {
+            let text = document.getElementById("demo").value;
+            let filename = "text.txt"
+            download(filename, text);
+        }, false);
+    </script>
+</body>
+
+</html>
